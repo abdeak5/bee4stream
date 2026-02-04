@@ -281,7 +281,7 @@ async function fetchMatches() {
 
             const card = document.createElement('div');
             card.className = 'match-card reveal-up';
-            card.style.animationDelay = \\s\;
+            card.style.animationDelay = `${0.1 * index}s`;
 
             card.innerHTML = `
                 <div class="match-time-badge ${isLive ? 'match-status-live' : 'match-status-upcoming'}">
