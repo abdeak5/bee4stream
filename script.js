@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', function () {
     initNavbarScroll();
     initRevealAnimations();
     initSmoothScroll();
+    initRevealAnimations();
+    initSmoothScroll();
+    fetchMatches();
 });
 
 /* ===================================
@@ -193,6 +196,17 @@ async function fetchContent() {
         if (!response.ok) throw new Error('Failed to load content');
         const data = await response.json();
 
+        // Check for show_live_section
+        const liveSection = document.getElementById('live-broadcasts');
+        if (liveSection) {
+            if (data.show_live_section !== false) {
+                liveSection.classList.remove('hidden');
+            } else {
+                liveSection.classList.add('hidden');
+            }
+        }
+
+
         // Logo
         const logo = document.getElementById('main-logo');
         if (logo && data.logo) logo.src = data.logo;
@@ -235,3 +249,128 @@ async function fetchContent() {
         console.error('Error loading content:', error);
     }
 }
+
+/* ===================================
+   Fetch and Render Matches
+   =================================== */
+async function fetchMatches() {
+    try {
+        const response = await fetch('data/matches.json');
+        if (!response.ok) throw new Error('Failed to load matches');
+        const data = await response.json();
+        const matchesContainer = document.getElementById('matches-container');
+        if (!matchesContainer) return;
+
+        // Ensure data.matches is an array
+        const matches = data.matches || [];
+
+        // Clear existing content
+        matchesContainer.innerHTML = '';
+
+        if (matches.length === 0) {
+            matchesContainer.innerHTML = '<p class="text-center text-slate-400 col-span-full">لا توجد مباريات مباشرة حالياً</p>';
+            return;
+        }
+
+        matches.forEach((match, index) => {
+            // Basic Validation
+            if (!match.is_active) return;
+
+            const isLive = isMatchLive(match.match_time);
+            const timeString = new Date(match.match_time).toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
+
+            const card = document.createElement('div');
+            card.className = 'match-card reveal-up';
+            card.style.animationDelay = \\s\;
+
+            card.innerHTML = `
+                <div class="match-time-badge ${isLive ? 'match-status-live' : 'match-status-upcoming'}">
+                    ${isLive ? '<span class="live-dot"></span> مباشر' : '<i data-lucide="calendar" class="w-3 h-3"></i> قريباً'}
+                </div>
+
+                <div class="teams-container">
+                    <div class="team-info">
+                        <img src="${match.team_a_logo}" alt="${match.team_a_name}" class="team-logo">
+                        <span class="team-name">${match.team_a_name}</span>
+                    </div>
+
+                    <div class="vs-badge">VS</div>
+
+                    <div class="team-info">
+                        <img src="${match.team_b_logo}" alt="${match.team_b_name}" class="team-logo">
+                        <span class="team-name">${match.team_b_name}</span>
+                    </div>
+                </div>
+
+                <div class="match-time" dir="ltr">
+                    <i data-lucide="clock" class="w-4 h-4 text-purple-500"></i>
+                    <span>${timeString}</span>
+                </div>
+
+                <button class="btn-watch" onclick="togglePlayer(this, '${match.stream_url}')">
+                    <i data-lucide="play-circle" class="w-5 h-5"></i>
+                    <span>مشاهدة المباراة</span>
+                </button>
+
+                <div class="player-wrapper">
+                    <video id="player-${index}" playsinline controls data-poster="https://i.ibb.co/KjKJY8xR/file-00000000ec8071f4bbecc08cec1119f3-removebg-preview.png">
+                        <source src="${match.stream_url}" type="application/x-mpegURL" />
+                    </video>
+                </div>
+             `;
+
+            matchesContainer.appendChild(card);
+        });
+
+        lucide.createIcons();
+
+    } catch (error) {
+        console.error('Error fetching matches:', error);
+    }
+}
+
+// Helper to check if match is approximately live (simple logic: within 2 hours of start)
+function isMatchLive(matchTimeStr) {
+    if (!matchTimeStr) return false;
+    const matchTime = new Date(matchTimeStr).getTime();
+    const now = new Date().getTime();
+    const diff = now - matchTime;
+    // Considered live if started in the last 120 minutes or starts in next 10 minutes
+    return diff > -600000 && diff < 120 * 60000;
+}
+
+// Toggle Player
+window.togglePlayer = function (btn, streamUrl) {
+    const wrapper = btn.nextElementSibling;
+    const video = wrapper.querySelector('video');
+
+    if (wrapper.style.display === 'block') {
+        wrapper.style.display = 'none';
+        btn.innerHTML = '<i data-lucide="play-circle" class="w-5 h-5"></i><span>مشاهدة المباراة</span>';
+        if (video.plyr) video.plyr.pause();
+    } else {
+        wrapper.style.display = 'block';
+        wrapper.classList.add('active');
+        btn.innerHTML = '<i data-lucide="x-circle" class="w-5 h-5"></i><span>إغلاق المشاهدة</span>';
+
+        if (!video.plyr) {
+            initPlyr(video, streamUrl);
+        }
+    }
+    lucide.createIcons();
+};
+
+function initPlyr(videoElement, source) {
+    if (Hls.isSupported()) {
+        const hls = new Hls();
+        hls.loadSource(source);
+        hls.attachMedia(videoElement);
+        window.hls = hls; // simple reference
+    }
+
+    videoElement.plyr = new Plyr(videoElement, {
+        controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
+        settings: ['quality', 'speed']
+    });
+}
+

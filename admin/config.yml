@@ -21,5 +21,21 @@ collections:
           - {label: "رابط APK المباشر", name: "apk_url", widget: "string"}
           - {label: "رابط الموقع", name: "web_url", widget: "string"}
           - {label: "صورة المعاينة 1", name: "preview_img_1", widget: "image"}
-          - {label: "صورة المعاينة 2", name: "preview_img_2", widget: "image"}
           - {label: "صورة المعاينة 3", name: "preview_img_3", widget: "image"}
+          - {label: "إظهار قسم البث المباشر", name: "show_live_section", widget: "boolean", default: true}
+
+  - name: "matches"
+    label: "المباريات (البث المباشر)"
+    folder: "data/matches_posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "عنوان المباراة", name: "title", widget: "string"}
+      - {label: "الفريق الأول (الاسم)", name: "team_a_name", widget: "string"}
+      - {label: "الفريق الأول (الشعار)", name: "team_a_logo", widget: "image"}
+      - {label: "الفريق الثاني (الاسم)", name: "team_b_name", widget: "string"}
+      - {label: "الفريق الثاني (الشعار)", name: "team_b_logo", widget: "image"}
+      - {label: "وقت المباراة", name: "match_time", widget: "datetime"}
+      - {label: "رابط البث (m3u8)", name: "stream_url", widget: "string"}
+      - {label: "تفعيل المباراة", name: "is_active", widget: "boolean", default: true}
+

@@ -32,6 +32,12 @@
     <!-- المكتبات البرمجية -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <!-- AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXX"
+        crossorigin="anonymous"></script>
 
     <!-- ملف الستايل الخارجي -->
     <link rel="stylesheet" href="styles.css">
@@ -177,6 +183,48 @@
                         <span class="block text-2xl font-black font-inter tracking-tight">من هنا</span>
                     </div>
                 </a>
+            </div>
+        </section>
+
+        <!-- Live Broadcasts Section -->
+        <section class="py-12 reveal-up hidden" id="live-broadcasts">
+            <div class="text-center mb-12">
+                <span
+                    class="inline-block py-1 px-3 rounded-full bg-red-500/10 border border-red-500/20 text-red-500 text-[10px] font-black tracking-widest uppercase mb-4 animate-pulse">
+                    Live Now
+                </span>
+                <h2 class="text-3xl md:text-5xl font-black mb-6 leading-tight tracking-tighter">بث <span
+                        class="text-gradient italic">مباشر</span></h2>
+                <div class="w-16 h-1 bg-red-500 mx-auto rounded-full shadow-[0_0_15px_rgba(239,68,68,0.5)]"></div>
+            </div>
+
+            <!-- Ad Unit Top -->
+            <div
+                class="w-full max-w-4xl mx-auto mb-8 min-h-[90px] bg-slate-100/50 dark:bg-slate-800/50 rounded-xl flex items-center justify-center overflow-hidden">
+                <!-- AdSense Placeholder -->
+                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXX"
+                    data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+                <span class="text-xs text-slate-400 font-mono">ADVERTISEMENT</span>
+            </div>
+
+            <div id="matches-container"
+                class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 px-4 max-w-7xl mx-auto">
+                <!-- Matches will be injected here via JS -->
+            </div>
+
+            <!-- Ad Unit Bottom -->
+            <div
+                class="w-full max-w-4xl mx-auto mt-12 min-h-[90px] bg-slate-100/50 dark:bg-slate-800/50 rounded-xl flex items-center justify-center overflow-hidden">
+                <!-- AdSense Placeholder -->
+                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXX"
+                    data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+                <span class="text-xs text-slate-400 font-mono">ADVERTISEMENT</span>
             </div>
         </section>
 
