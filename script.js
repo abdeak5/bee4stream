@@ -271,6 +271,7 @@ async function fetchMatches() {
 
         // Ensure data.matches is an array
         const matches = data.matches || [];
+        window.matchesData = matches; // Cache for openPlayer usage
 
         // Clear existing content
         matchesContainer.innerHTML = '';
@@ -315,7 +316,7 @@ async function fetchMatches() {
                     <span>${timeString}</span>
                 </div>
 
-                <button class="btn-watch" onclick="openPlayer('${match.stream_url}')">
+                <button class="btn-watch" onclick="openPlayer(${index})">
                     <i data-lucide="play-circle" class="w-5 h-5"></i>
                     <span>مشاهدة المباراة</span>
                 </button>
@@ -342,10 +343,21 @@ function isMatchLive(matchTimeStr) {
 }
 
 // Open Player Modal
-window.openPlayer = function (streamUrl) {
-    window.currentStreamUrl = streamUrl;
+window.openPlayer = function (index) {
+    // 1. Get Match Data
+    const matchesData = window.matchesData || []; // cached from fetchMatches
+    const match = matchesData[index];
+    if (!match) return;
+
+    window.currentStreamUrl = match.stream_url;
     const modal = document.getElementById('player-modal');
     const playerElement = document.getElementById('player');
+
+    // 2. Overlay Elements
+    const logoOverlay = document.getElementById('channel-logo');
+    const tickerOverlay = document.getElementById('news-ticker-bar');
+    const adOverlay = document.getElementById('ad-overlay');
+    const playerContainer = document.querySelector('.aspect-video'); // contains video
 
     if (modal) {
         modal.classList.remove('hidden');
@@ -353,7 +365,48 @@ window.openPlayer = function (streamUrl) {
         void modal.offsetWidth;
         modal.classList.add('active');
 
-        initPlyr(playerElement, streamUrl);
+        // --- 3. LOGIC ---
+
+        // A. Channel Logo
+        if (match.channel_logo && logoOverlay) {
+            logoOverlay.querySelector('img').src = match.channel_logo;
+            logoOverlay.classList.remove('hidden');
+        } else if (logoOverlay) {
+            logoOverlay.classList.add('hidden');
+        }
+
+        // B. News Ticker
+        if (match.news_ticker && tickerOverlay) {
+            document.getElementById('ticker-text').textContent = match.news_ticker;
+            tickerOverlay.classList.remove('hidden');
+        } else if (tickerOverlay) {
+            tickerOverlay.classList.add('hidden');
+        }
+
+        // C. Ad Break Mode
+        if (match.ad_active && adOverlay) {
+            // Show Ad Overlay
+            adOverlay.classList.remove('hidden');
+            // Hide Player (optional, or just cover it)
+            // playerContainer.classList.add('opacity-0'); 
+
+            // Set Ad Text
+            const adText = document.getElementById('ad-text');
+            if (adText) adText.innerHTML = match.ad_text || 'نتوقف لإعلان قصير...';
+
+            // Note: We do NOT init player if ad is active to save bandwidth/confusion
+            if (window.player) {
+                window.player.destroy();
+                window.player = null;
+            }
+
+        } else {
+            // Show Player Mode
+            if (adOverlay) adOverlay.classList.add('hidden');
+            // playerContainer.classList.remove('opacity-0');
+
+            initPlyr(playerElement, match.stream_url);
+        }
     }
 };
 

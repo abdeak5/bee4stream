@@ -42,6 +42,10 @@ collections:
               - {label: "الفريق الثاني (الشعار)", name: "team_b_logo", widget: "image"}
               - {label: "وقت المباراة", name: "match_time", widget: "datetime"}
               - {label: "رابط البث (m3u8)", name: "stream_url", widget: "string"}
+              - {label: "شريط الأخبار (اختياري)", name: "news_ticker", widget: "string", required: false}
+              - {label: "تفعيل وضع الإعلان (إيقاف المباراة)", name: "ad_active", widget: "boolean", default: false}
+              - {label: "نص الإعلان", name: "ad_text", widget: "text", required: false}
+              - {label: "شعار القناة (Overlay)", name: "channel_logo", widget: "image", required: false}
               - {label: "تفعيل المباراة", name: "is_active", widget: "boolean", default: true}
       - name: "settings"
         label: "إعدادات صفحة البث"

@@ -1650,3 +1650,58 @@ a {
 .plyr--full-ui input[type=range] {
     color: #7c3aed !important;
 }
+
+/* ===================================
+   Overlay & Ticker Styles
+   =================================== */
+.marquee-container {
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.animate-marquee {
+    display: inline-block;
+    animation: marquee 20s linear infinite;
+    padding-left: 100%;
+    /* Start off-screen */
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* Ad Break styles */
+.btn-apk,
+.btn-playstore {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+}
+
+.btn-apk {
+    background: #22c55e;
+    color: white;
+}
+
+.btn-apk:hover {
+    background: #16a34a;
+}
+
+.btn-playstore {
+    background: white;
+    color: black;
+}
+
+.btn-playstore:hover {
+    background: #f8fafc;
+}
