@@ -315,16 +315,10 @@ async function fetchMatches() {
                     <span>${timeString}</span>
                 </div>
 
-                <button class="btn-watch" onclick="togglePlayer(this, '${match.stream_url}')">
+                <button class="btn-watch" onclick="openPlayer('${match.stream_url}')">
                     <i data-lucide="play-circle" class="w-5 h-5"></i>
                     <span>مشاهدة المباراة</span>
                 </button>
-
-                <div class="player-wrapper">
-                    <video id="player-${index}" playsinline controls data-poster="https://i.ibb.co/KjKJY8xR/file-00000000ec8071f4bbecc08cec1119f3-removebg-preview.png">
-                        <source src="${match.stream_url}" type="application/x-mpegURL" />
-                    </video>
-                </div>
              `;
 
             matchesContainer.appendChild(card);
@@ -347,41 +341,107 @@ function isMatchLive(matchTimeStr) {
     return diff > -600000 && diff < 120 * 60000;
 }
 
-// Toggle Player
-window.togglePlayer = function (btn, streamUrl) {
-    const wrapper = btn.nextElementSibling;
-    const video = wrapper.querySelector('video');
+// Open Player Modal
+window.openPlayer = function (streamUrl) {
+    window.currentStreamUrl = streamUrl;
+    const modal = document.getElementById('player-modal');
+    const playerElement = document.getElementById('player');
 
-    if (wrapper.style.display === 'block') {
-        wrapper.style.display = 'none';
-        btn.innerHTML = '<i data-lucide="play-circle" class="w-5 h-5"></i><span>مشاهدة المباراة</span>';
-        if (video.plyr) video.plyr.pause();
-    } else {
-        wrapper.style.display = 'block';
-        wrapper.classList.add('active');
-        btn.innerHTML = '<i data-lucide="x-circle" class="w-5 h-5"></i><span>إغلاق المشاهدة</span>';
+    if (modal) {
+        modal.classList.remove('hidden');
+        // Force reflow
+        void modal.offsetWidth;
+        modal.classList.add('active');
 
-        if (!video.plyr) {
-            initPlyr(video, streamUrl);
-        }
+        initPlyr(playerElement, streamUrl);
     }
-    lucide.createIcons();
 };
 
+// Close Player Modal
+window.closePlayer = function () {
+    const modal = document.getElementById('player-modal');
+    if (modal) {
+        modal.classList.remove('active');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            if (window.player) {
+                window.player.destroy();
+                window.player = null;
+            }
+            if (window.hls) {
+                window.hls.destroy();
+                window.hls = null;
+            }
+        }, 300); // Wait for transition
+    }
+};
+
+// Reload Stream (Error Recovery)
+window.reloadPlayer = function () {
+    if (window.currentStreamUrl) {
+        if (window.player) {
+            window.player.destroy();
+            window.player = null;
+        }
+        if (window.hls) {
+            window.hls.destroy();
+            window.hls = null;
+        }
+
+        const playerElement = document.getElementById('player');
+        // Show loader
+        const loader = document.getElementById('player-loader');
+        if (loader) loader.classList.remove('hidden');
+
+        setTimeout(() => {
+            initPlyr(playerElement, window.currentStreamUrl);
+            if (loader) loader.classList.add('hidden');
+        }, 500);
+    }
+}
+
 function initPlyr(videoElement, source) {
+    // Determine HLS config based on user agent (optional)
+    const hlsConfig = {
+        enableWorker: true,
+        lowLatencyMode: true,
+    };
+
     if (Hls.isSupported()) {
-        const hls = new Hls({
-            enableWorker: true,
-            lowLatencyMode: true,
-        });
+        const hls = new Hls(hlsConfig);
         hls.loadSource(source);
         hls.attachMedia(videoElement);
         window.hls = hls;
+
+        // Error Handling
+        hls.on(Hls.Events.ERROR, function (event, data) {
+            if (data.fatal) {
+                switch (data.type) {
+                    case Hls.ErrorTypes.NETWORK_ERROR:
+                        // try to recover network error
+                        console.log('fatal network error encountered, try to recover');
+                        hls.startLoad();
+                        break;
+                    case Hls.ErrorTypes.MEDIA_ERROR:
+                        console.log('fatal media error encountered, try to recover');
+                        hls.recoverMediaError();
+                        break;
+                    default:
+                        // cannot recover
+                        hls.destroy();
+                        break;
+                }
+            }
+        });
+    } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
+        // Native HLS support (Safari)
+        videoElement.src = source;
     }
 
-    videoElement.plyr = new Plyr(videoElement, {
+    window.player = new Plyr(videoElement, {
         controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
-        settings: ['quality', 'speed']
+        settings: ['quality', 'speed'],
+        autoplay: true
     });
 }
 

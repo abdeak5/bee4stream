@@ -1546,7 +1546,8 @@ a {
     text-align: center;
     line-height: 1.2;
     color: #334155;
-    word-wrap: break-word; /* Ensure long names don't overflow */
+    word-wrap: break-word;
+    /* Ensure long names don't overflow */
     max-width: 100%;
 }
 
@@ -1560,7 +1561,8 @@ a {
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.2);
-    display: none; /* Hidden by default until "Watch" is clicked */
+    display: none;
+    /* Hidden by default until "Watch" is clicked */
 }
 
 .player-wrapper.active {
@@ -1569,8 +1571,15 @@ a {
 }
 
 @keyframes slideDown {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Watch Button */
@@ -1601,7 +1610,43 @@ a {
 
 /* Custom Plyr Theme Overrides */
 .plyr--video {
-    --plyr-color-main: #7c3aed; /* Purple 600 */
-    --plyr-video-background: #0f172a; /* Slate 900 */
+    --plyr-color-main: #7c3aed;
+    /* Purple 600 */
+    --plyr-video-background: #0f172a;
+    /* Slate 900 */
     border-radius: 16px;
+}
+
+/* ===================================
+   Pop-up Player Modal Styles
+   =================================== */
+#player-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+#player-modal.active #modal-player-container {
+    transform: scale(1);
+}
+
+.animate-up {
+    animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+    transform: translateY(20px);
+    animation-delay: 0.2s;
+}
+
+@keyframes slideUpFade {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.plyr__control--overlaid {
+    background: rgba(124, 58, 237, 0.8) !important;
+}
+
+.plyr--full-ui input[type=range] {
+    color: #7c3aed !important;
 }

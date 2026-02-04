@@ -122,6 +122,51 @@
 
     </main>
 
+    <!-- Player Modal -->
+    <div id="player-modal" class="fixed inset-0 z-[200] hidden opacity-0 transition-opacity duration-300">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closePlayer()"></div>
+
+        <!-- Modal Content -->
+        <div class="relative w-full max-w-5xl mx-auto px-4 h-full flex flex-col items-center justify-center">
+
+            <!-- Close Button -->
+            <button onclick="closePlayer()"
+                class="absolute top-8 right-8 text-white/50 hover:text-white transition-colors z-[210]">
+                <i data-lucide="x" class="w-10 h-10"></i>
+            </button>
+
+            <!-- Player Wrapper with Glass Effect -->
+            <div class="w-full bg-slate-900/50 backdrop-blur-xl rounded-3xl overflow-hidden border border-white/10 shadow-2xl transform scale-95 transition-transform duration-300"
+                id="modal-player-container">
+                <div class="aspect-video w-full relative">
+                    <video id="player" class="plyr__video-embed w-full h-full" playsinline controls></video>
+
+                    <!-- Loading/Error State -->
+                    <div id="player-loader"
+                        class="absolute inset-0 flex items-center justify-center bg-black z-10 hidden">
+                        <i data-lucide="loader-2" class="w-10 h-10 text-purple-500 animate-spin"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stream Info / Controls (Optional) -->
+            <div class="mt-6 flex items-center gap-4 animate-up">
+                <div
+                    class="flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/20 text-red-500 border border-red-500/30">
+                    <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                    <span class="text-xs font-black uppercase tracking-widest">Live Signal</span>
+                </div>
+                <button onclick="reloadPlayer()"
+                    class="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors text-xs font-bold uppercase tracking-widest">
+                    <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                    Fix Stream
+                </button>
+            </div>
+
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer
         class="w-full py-12 text-center border-t border-slate-100 dark:border-slate-800 mt-auto bg-white/50 dark:bg-slate-900/50 backdrop-blur-md">
