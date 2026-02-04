@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Be4stream - التطبيق الأمثل لمشاهدة البث المباشر للمباريات الرياضية بجودة عالية. تغطية شاملة لجميع الدوريات والبطولات العالمية.">
+    <meta name="keywords" content="بث مباشر, مباريات, رياضة, دوريات, كرة قدم, Be4stream">
+    <meta name="author" content="Be4stream Team">
+
+    <!-- Open Graph للمشاركة على السوشيال ميديا -->
+    <meta property="og:title" content="Be4stream |التطبيق الرياضي الأفضل">
+    <meta property="og:description" content="بث مباشر بجودة مذهلة، تغطية شاملة لكافة الدوريات، وأحدث الأخبار الرياضية">
+    <meta property="og:image"
+        content="https://i.ibb.co/KjKJY8xR/file-00000000ec8071f4bbecc08cec1119f3-removebg-preview.png">
+    <meta property="og:type" content="website">
+
+    <title>Be4stream | التطبيق الرياضي الأفضل </title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png"
+        href="https://i.ibb.co/KjKJY8xR/file-00000000ec8071f4bbecc08cec1119f3-removebg-preview.png">
+
+    <!-- الخطوط -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Inter:wght@400;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- المكتبات البرمجية -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- ملف الستايل الخارجي -->
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+
+<body class="flex flex-col items-center transition-colors duration-500">
+
+    <div class="bg-mesh"></div>
+
+    <!-- شريط التنقل -->
+    <nav id="navbar" class="fixed top-0 w-full z-[100] nav-glass h-20 flex items-center justify-center">
+        <div class="w-full max-w-7xl px-6 flex justify-between items-center">
+            <div class="flex items-center gap-4 group cursor-pointer">
+                <div
+                    class="w-14 h-14 overflow-hidden rounded-2xl bg-gradient-to-br from-purple-50 to-pink-50 shadow-lg flex items-center justify-center p-1.5 border border-purple-100/50 transition-all duration-500 group-hover:scale-110 group-hover:shadow-purple-200/50 group-hover:shadow-xl">
+                    <img src="https://i.ibb.co/KjKJY8xR/file-00000000ec8071f4bbecc08cec1119f3-removebg-preview.png"
+                        class="w-full h-full object-contain drop-shadow-sm" alt="Be4stream Logo">
+                </div>
+                <div class="flex flex-col">
+                    <span
+                        class="font-inter font-black text-2xl md:text-3xl italic tracking-tighter leading-none uppercase">BE4<span
+                            class="text-gradient">STREAM</span></span>
+                    <span
+                        class="text-[9px] font-bold text-slate-400 tracking-[0.3em] uppercase mt-1 hidden sm:block">Live
+                        Sports</span>
+                </div>
+            </div>
+
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#features"
+                    class="nav-link relative font-bold text-sm text-slate-500 uppercase tracking-widest hover:text-purple-600 transition-all duration-300 py-2">المميزات</a>
+                <a href="#gallery"
+                    class="nav-link relative font-bold text-sm text-slate-500 uppercase tracking-widest hover:text-purple-600 transition-all duration-300 py-2">المعاينة</a>
+                <a href="https://play.google.com/store/apps/details?id=com.bee4stream.bee4stream" target="_blank"
+                    class="btn-download group relative overflow-hidden bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white px-8 py-3 rounded-2xl transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-purple-500/20 hover:-translate-y-1">
+                    <span class="relative z-10 flex items-center gap-2 font-bold">
+                        <i data-lucide="download" class="w-4 h-4"></i>
+                        تحميل الآن
+                    </span>
+                    <div
+                        class="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    </div>
+                </a>
+            </div>
+
+            <!-- زر الوضع الداكن -->
+            <button id="theme-toggle"
+                class="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center transition-all duration-500 hover:scale-110 hover:shadow-lg group"
+                aria-label="Toggle Dark Mode">
+                <i data-lucide="sun"
+                    class="w-5 h-5 text-amber-500 hidden dark:block group-hover:rotate-180 transition-transform duration-500"></i>
+                <i data-lucide="moon"
+                    class="w-5 h-5 text-slate-600 dark:hidden group-hover:rotate-12 transition-transform duration-300"></i>
+            </button>
+
+            <!-- قائمة الموبايل -->
+            <div id="menu-btn"
+                class="md:hidden w-10 h-10 flex items-center justify-center bg-slate-50 dark:bg-slate-800 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                <i data-lucide="menu" class="w-6 h-6 text-slate-900 dark:text-white"></i>
+            </div>
+        </div>
+
+        <!-- القائمة المنسدلة للموبايل -->
+        <div id="mobile-menu" class="mobile-menu md:hidden">
+            <a href="#features" class="mobile-menu-link">المميزات</a>
+            <a href="#gallery" class="mobile-menu-link">المعاينة</a>
+            <a href="https://play.google.com/store/apps/details?id=com.bee4stream.bee4stream" target="_blank"
+                class="mobile-menu-link bg-purple-600 text-white text-center rounded-xl">تحميل الآن</a>
+        </div>
+    </nav>
+
+    <!-- حاوية المحتوى -->
+    <div class="w-full max-w-7xl px-6 md:px-12 pt-32 lg:pt-48 mx-auto">
+
+        <!-- قسم الواجهة الرئيسية -->
+        <section class="flex flex-col items-center py-12 md:py-24 text-center" id="hero">
+            <div class="logo-aura mb-12 reveal-up" style="animation-delay: 0.1s;">
+                <div class="relative">
+                    <div class="absolute inset-0 bg-slate-100 blur-[80px] opacity-40 rounded-full"></div>
+                    <img id="main-logo"
+                        src="https://i.ibb.co/KjKJY8xR/file-00000000ec8071f4bbecc08cec1119f3-removebg-preview.png"
+                        alt="Be4stream Hero Logo" class="w-64 h-64 md:w-80 md:h-80 object-contain relative z-10">
+                </div>
+            </div>
+
+            <div class="reveal-up max-w-4xl" style="animation-delay: 0.2s;">
+                <h1 id="hero-title" class="text-4xl md:text-6xl font-black text-slate-900 mb-8 leading-[1.15]">
+                    متعة الرياضة العالمية.. <br><span class="text-gradient underline decoration-slate-100">بتجربة
+                        متكاملة.</span>
+                </h1>
+                <p id="hero-desc"
+                    class="text-slate-400 font-semibold text-lg md:text-2xl mb-14 leading-relaxed max-w-3xl mx-auto">
+                    بث مباشر بجودة مذهلة، تغطية شاملة لكافة الدوريات، وأحدث الأخبار الرياضية بين يديك في تطبيق واحد.
+                </p>
+            </div>
+
+            <!-- أزرار التحميل -->
+            <div class="w-full max-w-3xl flex flex-col sm:flex-row gap-6 justify-center reveal-up"
+                style="animation-delay: 0.3s;">
+                <a id="playstore-link" href="https://play.google.com/store/apps/details?id=com.bee4stream.bee4stream"
+                    target="_blank" class="btn-playstore group w-full sm:w-auto min-w-[260px]">
+                    <i data-lucide="play" class="w-10 h-10 fill-white text-white"></i>
+                    <div class="text-right">
+                        <span class="block text-[10px] opacity-60 font-bold uppercase tracking-[0.2em] mb-0.5">حمل
+                            من</span>
+                        <span class="block text-2xl font-black font-inter tracking-tight">Google Play</span>
+                    </div>
+                </a>
+
+                </a>
+
+                <a id="tg-link" href="https://t.me/be4stream" target="_blank"
+                    class="btn-tg group w-full sm:w-auto min-w-[260px]">
+                    <i data-lucide="send" class="w-10 h-10 fill-white"></i>
+                    <div class="text-right">
+                        <span class="block text-[10px] opacity-80 font-bold uppercase tracking-[0.2em] mb-0.5">انضم
+                            إلينا عبر</span>
+                        <span class="block text-2xl font-black font-inter tracking-tight">Telegram</span>
+                    </div>
+                </a>
+
+                </a>
+
+                <a id="apk-link" href="https://www.mediafire.com/file/i62zgav32kzzghu/loi.apk/file" target="_blank"
+                    class="btn-apk group w-full sm:w-auto min-w-[260px]">
+                    <i data-lucide="download-cloud" class="w-10 h-10"></i>
+                    <div class="text-right">
+                        <span class="block text-[10px] opacity-80 font-bold uppercase tracking-[0.2em] mb-0.5">تحميل
+                            مباشر</span>
+                        <span class="block text-2xl font-black font-inter tracking-tight">APK File</span>
+                    </div>
+                </a>
+
+                </a>
+
+                <a id="website-link" href="https://be4stream.top" target="_blank"
+                    class="btn-website group w-full sm:w-auto min-w-[260px]">
+                    <i data-lucide="globe" class="w-10 h-10"></i>
+                    <div class="text-right">
+                        <span class="block text-[10px] opacity-80 font-bold uppercase tracking-[0.2em] mb-0.5">شاهد
+                            المباريات عبر موقعنا</span>
+                        <span class="block text-2xl font-black font-inter tracking-tight">من هنا</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- قسم المميزات -->
+        <section class="py-24 reveal-up" id="features">
+            <div class="text-center mb-20">
+                <span class="text-[11px] font-black tracking-[0.6em] text-slate-400 uppercase mb-4 block">أهم
+                    مميزاتنا</span>
+                <h2 class="text-4xl md:text-7xl font-black mb-8 leading-tight tracking-tighter">مزايا <span
+                        class="text-gradient italic">استثنائية</span></h2>
+                <div class="w-24 h-1.5 bg-slate-100 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-4">
+                <div class="bento-card p-10 rounded-[3.5rem] text-center md:text-right group">
+                    <div
+                        class="w-16 h-16 bg-purple-600 rounded-3xl flex items-center justify-center text-white shadow-xl mb-6 mx-auto md:mx-0 group-hover:rotate-6 transition-transform">
+                        <i data-lucide="tv" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="font-black text-xl mb-3 leading-tight">بث مباشر عالي</h3>
+                    <p class="text-slate-400 text-sm font-bold leading-relaxed">استمتع بمشاهدة حية ومستقرة لكافة
+                        الفعاليات بجودة فائقة السرعة.</p>
+                </div>
+
+                <div class="bento-card p-10 rounded-[3.5rem] text-center md:text-right group">
+                    <div
+                        class="w-16 h-16 bg-emerald-500 rounded-3xl flex items-center justify-center text-white shadow-xl mb-6 mx-auto md:mx-0 group-hover:rotate-6 transition-transform">
+                        <i data-lucide="trophy" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="font-black text-xl mb-3 leading-tight">تغطية كل الدوريات</h3>
+                    <p class="text-slate-400 text-sm font-bold leading-relaxed">تغطية شاملة لأقوى الدوريات العالمية
+                        والبطولات القارية لحظة بلحظة.</p>
+                </div>
+
+                <div class="bento-card p-10 rounded-[3.5rem] text-center md:text-right group">
+                    <div
+                        class="w-16 h-16 bg-pink-500 rounded-2xl flex items-center justify-center text-white shadow-xl mb-6 mx-auto md:mx-0 group-hover:rotate-6 transition-transform">
+                        <i data-lucide="layout" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="font-black text-xl mb-3 leading-tight">تجربة متكاملة</h3>
+                    <p class="text-slate-400 text-sm font-bold leading-relaxed">تصميم بديهي يجمع لك كل ما تحتاجه في
+                        تطبيق واحد سهل وسريع.</p>
+                </div>
+
+                <div class="bento-card p-10 rounded-[3.5rem] text-center md:text-right group">
+                    <div
+                        class="w-16 h-16 bg-sky-500 rounded-2xl flex items-center justify-center text-white shadow-xl mb-6 mx-auto md:mx-0 group-hover:rotate-6 transition-transform">
+                        <i data-lucide="newspaper" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="font-black text-xl mb-3 leading-tight">أخبار رياضية</h3>
+                    <p class="text-slate-400 text-sm font-bold leading-relaxed">آخر مستجدات الملاعب، انتقالات اللاعبين،
+                        والتقارير الحصرية يومياً.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم الدوريات المتاحة -->
+        <section class="py-24 reveal-up" id="leagues">
+            <div class="text-center mb-16">
+                <span class="text-[11px] font-black tracking-[0.6em] text-slate-400 uppercase mb-4 block">تغطية
+                    شاملة</span>
+                <h2 class="text-4xl md:text-6xl font-black mb-6 leading-tight tracking-tighter">الدوريات <span
+                        class="text-gradient italic">المتاحة</span></h2>
+                <p class="text-slate-400 font-semibold text-lg max-w-2xl mx-auto">نغطي أقوى الدوريات والبطولات العالمية
+                    والعربية بجودة عالية</p>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 px-4">
+                <!-- دوري أبطال أوروبا -->
+                <div class="league-card-white group" data-color="blue">
+                    <div class="league-card-border"></div>
+                    <div class="league-logo-white">
+                        <img src="https://upload.wikimedia.org/wikipedia/ar/8/80/%D8%B4%D8%B9%D8%A7%D8%B1_%D8%AF%D9%88%D8%B1%D9%8A_%D8%A3%D8%A8%D8%B7%D8%A7%D9%84_%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D8%A7.png"
+                            alt="UEFA Champions League">
+                    </div>
+                    <h3 class="league-title-dark">دوري أبطال أوروبا</h3>
+                    <span class="league-tag-colored bg-blue-600">UEFA</span>
+                </div>
+
+                <!-- الدوري الإنجليزي -->
+                <div class="league-card-white group" data-color="purple">
+                    <div class="league-card-border"></div>
+                    <div class="league-logo-white">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/Premier_League_Logo.svg/1200px-Premier_League_Logo.svg.png"
+                            alt="Premier League">
+                    </div>
+                    <h3 class="league-title-dark">الدوري الإنجليزي</h3>
+                    <span class="league-tag-colored bg-purple-600">Premier</span>
+                </div>
+
+                <!-- الدوري الإسباني -->
+                <div class="league-card-white group" data-color="orange">
+                    <div class="league-card-border"></div>
+                    <div class="league-logo-white">
+                        <img src="https://www.emaratalyoum.com/polopoly_fs/1.1754838.1685900002!/image/image.jpg"
+                            alt="LaLiga">
+                    </div>
+                    <h3 class="league-title-dark">الدوري الإسباني</h3>
+                    <span class="league-tag-colored bg-orange-500">LaLiga</span>
+                </div>
+
+                <!-- الدوري الإيطالي -->
+                <div class="league-card-white group" data-color="green">
+                    <div class="league-card-border"></div>
+                    <div class="league-logo-white">
+                        <img src="https://cdn.qna.org.qa/media/cq1hsvcw/qna_italy_seriea.jpg?width=1200&height=900&v=1db4ebf7a1d6b30"
+                            alt="Serie A">
+                    </div>
+                    <h3 class="league-title-dark">الدوري الإيطالي</h3>
+                    <span class="league-tag-colored bg-emerald-600">Serie A</span>
+                </div>
+
+                <!-- الدوري الألماني -->
+                <div class="league-card-white group" data-color="red">
+                    <div class="league-card-border"></div>
+                    <div class="league-logo-white">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/d/df/Bundesliga_logo_%282017%29.svg/1200px-Bundesliga_logo_%282017%29.svg.png"
+                            alt="Bundesliga">
+                    </div>
+                    <h3 class="league-title-dark">الدوري الألماني</h3>
+                    <span class="league-tag-colored bg-red-600">Bundesliga</span>
+                </div>
+
+                <!-- الدوري الفرنسي -->
+                <div class="league-card-white group" data-color="sky">
+                    <div class="league-card-border"></div>
+                    <div class="league-logo-white">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Ligue_1_2024_Logo.png/960px-Ligue_1_2024_Logo.png"
+                            alt="Ligue 1">
+                    </div>
+                    <h3 class="league-title-dark">الدوري الفرنسي</h3>
+                    <span class="league-tag-colored bg-blue-500">Ligue 1</span>
+                </div>
+
+                <!-- الدوري التونسي -->
+                <div class="league-card-white group" data-color="red">
+                    <div class="league-card-border"></div>
+                    <div class="league-logo-white">
+                        <img src="https://upload.wikimedia.org/wikipedia/ar/2/20/Tunisian_Ligue_1_%28logo%29.png"
+                            alt="Tunisian Ligue 1">
+                    </div>
+                    <h3 class="league-title-dark">الدوري التونسي</h3>
+                    <span class="league-tag-colored bg-red-700">Ligue 1 TN</span>
+                </div>
+
+                <!-- بطولات أخرى -->
+                <div class="league-card-white group" data-color="amber">
+                    <div class="league-card-border"></div>
+                    <div class="league-logo-white">
+                        <i data-lucide="globe" class="w-12 h-12 text-amber-500"></i>
+                    </div>
+                    <h3 class="league-title-dark">بطولات أخرى</h3>
+                    <span class="league-tag-colored bg-amber-500">+50</span>
+                </div>
+            </div>
+
+            <!-- المزيد من الدوريات -->
+            <div class="text-center mt-12">
+                <p class="text-slate-400 font-bold text-lg">
+                    <span class="text-gradient font-black">+50</span> دوري وبطولة أخرى متاحة
+                </p>
+            </div>
+        </section>
+
+        <!-- قسم ما نقدمه -->
+        <section class="py-24 reveal-up" id="services">
+            <div class="text-center mb-16">
+                <span class="text-[11px] font-black tracking-[0.6em] text-slate-400 uppercase mb-4 block">خدماتنا</span>
+                <h2 class="text-4xl md:text-6xl font-black mb-6 leading-tight tracking-tighter">ماذا <span
+                        class="text-gradient italic">نقدم</span></h2>
+                <p class="text-slate-400 font-semibold text-lg max-w-2xl mx-auto">تجربة رياضية متكاملة في تطبيق واحد</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4">
+                <!-- خدمة 1 -->
+                <article class="service-card group">
+                    <div class="service-image">
+                        <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&h=250&fit=crop"
+                            alt="Live Streaming" class="w-full h-full object-cover">
+                        <div class="service-overlay">
+                            <i data-lucide="tv" class="w-12 h-12 text-white"></i>
+                        </div>
+                    </div>
+                    <div class="service-content">
+                        <h3 class="service-title">بث مباشر بجودة عالية</h3>
+                        <p class="service-desc">شاهد جميع المباريات مباشرة بجودة HD وبدون تقطيع مع خوادم متعددة</p>
+                        <div class="service-features">
+                            <span><i data-lucide="check" class="w-4 h-4"></i> جودة HD</span>
+                            <span><i data-lucide="check" class="w-4 h-4"></i> بدون تقطيع</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- خدمة 2 -->
+                <article class="service-card group">
+                    <div class="service-image">
+                        <img src="https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=400&h=250&fit=crop"
+                            alt="Coverage" class="w-full h-full object-cover">
+                        <div class="service-overlay">
+                            <i data-lucide="globe" class="w-12 h-12 text-white"></i>
+                        </div>
+                    </div>
+                    <div class="service-content">
+                        <h3 class="service-title">تغطية شاملة للبطولات</h3>
+                        <p class="service-desc">نغطي جميع الدوريات العالمية والعربية والبطولات القارية والمحلية</p>
+                        <div class="service-features">
+                            <span><i data-lucide="check" class="w-4 h-4"></i> +50 دوري</span>
+                            <span><i data-lucide="check" class="w-4 h-4"></i> تحديث مستمر</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- خدمة 3 -->
+                <article class="service-card group">
+                    <div class="service-image">
+                        <img src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=400&h=250&fit=crop"
+                            alt="News" class="w-full h-full object-cover">
+                        <div class="service-overlay">
+                            <i data-lucide="newspaper" class="w-12 h-12 text-white"></i>
+                        </div>
+                    </div>
+                    <div class="service-content">
+                        <h3 class="service-title">أخبار رياضية يومية</h3>
+                        <p class="service-desc">تابع آخر الأخبار والتحليلات والانتقالات من مصادر موثوقة يومياً</p>
+                        <div class="service-features">
+                            <span><i data-lucide="check" class="w-4 h-4"></i> تحديث فوري</span>
+                            <span><i data-lucide="check" class="w-4 h-4"></i> مصادر موثوقة</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- قسم المعاينة -->
+        <section class="py-32 reveal-up" id="gallery">
+            <div class="text-center mb-24 px-4">
+                <h2 class="text-5xl md:text-8xl font-black mb-8 leading-tight tracking-tighter">تجربة <span
+                        class="text-gradient">احترافية</span></h2>
+                <p class="text-slate-400 font-black uppercase tracking-[0.5em] text-xs">واجهة احترافية • تصميم عصري</p>
+            </div>
+
+            <!-- سلايدر الهواتف -->
+            <div
+                class="flex gap-12 lg:gap-24 overflow-x-auto hide-scrollbar px-10 pb-24 snap-x justify-start lg:justify-center">
+                <div class="snap-center relative">
+                    <div class="white-aura"></div>
+                    <div class="pro-mockup">
+                        <img id="preview-img-1"
+                            src="https://i.ibb.co/DfCR79cP/Whats-App-Image-2026-01-07-at-14-27-10-6.jpg"
+                            alt="Be4stream UI 1" class="w-full h-auto">
+                    </div>
+                </div>
+
+                <div class="snap-center relative lg:translate-y-12">
+                    <div class="white-aura"></div>
+                    <div class="pro-mockup">
+                        <img id="preview-img-2"
+                            src="https://i.ibb.co/fzhSWwHW/Whats-App-Image-2026-01-07-at-14-27-10-5.jpg"
+                            alt="Be4stream UI 2" class="w-full h-auto">
+                    </div>
+                </div>
+
+                <div class="snap-center relative">
+                    <div class="white-aura"></div>
+                    <div class="pro-mockup">
+                        <img id="preview-img-3"
+                            src="https://i.ibb.co/Z1zv0DxM/Whats-App-Image-2026-01-07-at-14-27-10-4.jpg"
+                            alt="Be4stream UI 3" class="w-full h-auto">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- التذييل الاحترافي -->
+    <footer class="w-full py-24 text-center bg-slate-50/50 border-t border-slate-100 rounded-t-[5rem] mt-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col items-center gap-8 mb-16 group cursor-pointer">
+                <div
+                    class="w-24 h-24 bg-gradient-to-br from-white to-slate-50 rounded-[2rem] shadow-lg flex items-center justify-center p-3 border border-slate-100/50 transition-all duration-700 group-hover:scale-110 group-hover:shadow-xl group-hover:shadow-purple-100">
+                    <img src="https://i.ibb.co/KjKJY8xR/file-00000000ec8071f4bbecc08cec1119f3-removebg-preview.png"
+                        class="w-full h-full object-contain drop-shadow-md" alt="Footer Logo">
+                </div>
+                <div class="text-center">
+                    <span
+                        class="font-inter font-black text-4xl md:text-5xl italic tracking-tighter uppercase transition-all duration-500 footer-brand-text leading-tight block">Be4Stream</span>
+                    <span class="text-slate-400 text-sm font-bold tracking-[0.4em] uppercase mt-3 block">التجربة
+                        الرياضية الأرقى</span>
+                </div>
+            </div>
+
+            <!-- أيقونات التواصل -->
+            <div class="flex justify-center gap-10 mb-16">
+                <a href="https://www.facebook.com/be4stream" target="_blank"
+                    class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-slate-300 hover:text-blue-600 shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-xl group"
+                    aria-label="Facebook">
+                    <i data-lucide="facebook" class="w-7 h-7 group-hover:scale-110"></i>
+                </a>
+                <a href="#" target="_blank"
+                    class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-slate-300 hover:text-pink-600 shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-xl group"
+                    aria-label="Instagram">
+                    <i data-lucide="instagram" class="w-7 h-7 group-hover:scale-110"></i>
+                </a>
+                <a href="https://t.me/be4stream" target="_blank"
+                    class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-slate-300 hover:text-sky-500 shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-xl group"
+                    aria-label="Telegram">
+                    <i data-lucide="send" class="w-7 h-7 group-hover:scale-110"></i>
+                </a>
+            </div>
+
+            <p
+                class="text-slate-400 text-xs font-bold transition-colors duration-500 hover:text-slate-600 cursor-default uppercase tracking-widest">
+                جميع الحقوق محفوظة &copy; 2026 | Be4stream</p>
+        </div>
+    </footer>
+
+    <!-- ملف الجافاسكريبت الخارجي -->
+    <script src="script.js"></script>
+</body>
+
+</html>

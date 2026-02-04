@@ -1,0 +1,25 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "assets/images"
+public_folder: "/assets/images"
+
+collections:
+  - name: "content"
+    label: "محتوى الصفحة"
+    files:
+      - name: "landing"
+        label: "الصفحة الرئيسية"
+        file: "data/content.json"
+        fields:
+          - {label: "الشعار", name: "logo", widget: "image"}
+          - {label: "العنوان الرئيسي", name: "hero_title", widget: "string"}
+          - {label: "الوصف", name: "hero_desc", widget: "text"}
+          - {label: "رابط Play Store", name: "playstore_url", widget: "string"}
+          - {label: "رابط Telegram", name: "telegram_url", widget: "string"}
+          - {label: "رابط APK المباشر", name: "apk_url", widget: "string"}
+          - {label: "رابط الموقع", name: "web_url", widget: "string"}
+          - {label: "صورة المعاينة 1", name: "preview_img_1", widget: "image"}
+          - {label: "صورة المعاينة 2", name: "preview_img_2", widget: "image"}
+          - {label: "صورة المعاينة 3", name: "preview_img_3", widget: "image"}
