@@ -196,16 +196,6 @@ async function fetchContent() {
         if (!response.ok) throw new Error('Failed to load content');
         const data = await response.json();
 
-        // Check for show_live_section
-        const liveSection = document.getElementById('live-broadcasts');
-        if (liveSection) {
-            if (data.show_live_section !== false) {
-                liveSection.classList.remove('hidden');
-            } else {
-                liveSection.classList.add('hidden');
-            }
-        }
-
 
         // Logo
         const logo = document.getElementById('main-logo');
@@ -244,6 +234,24 @@ async function fetchContent() {
 
         // Re-initialize icons to ensure any injected icons render (though we mostly changed attributes)
         lucide.createIcons();
+
+        // Check for Live Page Settings
+        try {
+            const settingsResponse = await fetch('data/live_settings.json');
+            if (settingsResponse.ok) {
+                const settings = await settingsResponse.json();
+                const liveBtn = document.getElementById('live-cta');
+                if (settings.live_page_enabled === false) {
+                    if (liveBtn) liveBtn.style.display = 'none';
+                    // If on live page and disabled, redirect (optional)
+                    if (window.location.pathname.includes('live.html')) {
+                        window.location.href = 'index.html';
+                    }
+                }
+            }
+        } catch (e) {
+            console.error('Error loading settings:', e);
+        }
 
     } catch (error) {
         console.error('Error loading content:', error);
@@ -362,10 +370,13 @@ window.togglePlayer = function (btn, streamUrl) {
 
 function initPlyr(videoElement, source) {
     if (Hls.isSupported()) {
-        const hls = new Hls();
+        const hls = new Hls({
+            enableWorker: true,
+            lowLatencyMode: true,
+        });
         hls.loadSource(source);
         hls.attachMedia(videoElement);
-        window.hls = hls; // simple reference
+        window.hls = hls;
     }
 
     videoElement.plyr = new Plyr(videoElement, {
